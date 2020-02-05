@@ -15,7 +15,6 @@ public class User {
     private int id;
 
 
-//Potentially store these in a separate table
     @Column
     private Boolean admin = false;
 
@@ -25,10 +24,8 @@ public class User {
     @Column
     private String password = "";
 
-    @Column
+   @Column
     private int loginAttempts = 0;
-
-    //Separate Table above?
 
     @Column
     private Boolean accountLocked = false;
@@ -54,12 +51,53 @@ public class User {
     @Column
     private String state = "";
 
-    public String getUserName(){ return userName;}
 
     public int getId(){return id;}
 
+    public String getUserName(){return userName;}
 
+    public String getPassword(){return password;}
 
-//    I can use a get request to get the username, and if it matches, check the password
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public int getLoginAttempts() {
+        return loginAttempts;
+    }
+
+    public Boolean getAccountLocked() {
+        return accountLocked;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getStreetAddress() {
+        return streetAddress;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    //    I can use a get request to get the username, and if it matches, check the password
 
 }
