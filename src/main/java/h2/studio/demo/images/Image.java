@@ -1,8 +1,19 @@
 package h2.studio.demo.images;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import h2.studio.demo.products.Product;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
 
 @Entity
 @Table(name = "images")
@@ -18,9 +29,41 @@ public class Image {
     @Column
     private String addressField;
 
+    //Temporary solution
+//    @Column
+//    private String productId;
+//
+//    public String getProductId() {
+//        return productId;
+//    }
+//
+//    public void setProductId(String productId) {
+//        this.productId = productId;
+//    }
+//    Temporary solution end
+
+
+
     @ManyToOne
-    @JoinColumn
+//    @JoinColumn
     private Product product;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    //    @ManyToOne
+//    @JoinColumn(name="product_id", referencedColumnName = "id")
+//    private Product product;
+
+//    @ManyToOne(mappedBy = "image_id")
+//    private Product product;
+
+
 
     public int getId() {
         return id;
@@ -38,11 +81,40 @@ public class Image {
         this.addressField = addressField;
     }
 
-    public Product getProduct() {
-        return product;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modify_date")
+    private Date modifyDate;
+
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
+    //    public Product getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
+
+
 }

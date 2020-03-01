@@ -2,8 +2,15 @@ package h2.studio.demo.products;
 
 
 
+import h2.studio.demo.images.Image;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -100,4 +107,62 @@ public class Product {
     public void setDescription4(String description4) {
         this.description4 = description4;
     }
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date")
+    private Date createDate;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modify_date")
+    private Date modifyDate;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
+    //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<Image> productImages;
+//
+//    public List<Image> getProductImages() {
+//        return productImages;
+//    }
+//
+//    public void setProductImages(List<Image> productImages) {
+//        this.productImages = productImages;
+//    }
+
+    //    @OneToMany(mappedBy = "product_id")
+//    private List<Image> image;
+//
+//    public List<Image> getImages() {
+//        return image;
+//    }
+//
+//    public void setImages(List<Image> image) {
+//        this.image = image;
+//    }
+    //    @OneToMany(mappedBy = "product")
+//    private List<Image> image;
+//
+//    public List<Image> getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(List<Image> image) {
+//        this.image = image;
+//    }
 }

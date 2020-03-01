@@ -31,9 +31,19 @@ public class UsersController {
 
 
     //Returns a user without the password being sent back to the front end
-    @GetMapping("/{id}")
-    public returnUser getOneUser(@PathVariable int id){
+//    @GetMapping("/login")
+//    public returnUser getOneUser(@PathVariable int id){
+
+    @GetMapping("/login")
+    public returnUser getOneUser(@RequestBody User login){
+
+        User loginUser = usersService.loginUser()
+
         User user = usersService.getOneUser(id).orElseThrow(IllegalArgumentException::new);
+
+//        if (user.)
+
+
 
         returnUser userToReturn = new returnUser();
 

@@ -19,6 +19,8 @@ public class UsersService {
 
     public Optional<User> getOneUser(int id) { return usersRepository.findById(id); }
 
+    public Optional<User> loginUser(String username) {return usersRepository.getUserByUserNameEquals(username);}
+
     public User addNewUser(User newUser) {
 
 
