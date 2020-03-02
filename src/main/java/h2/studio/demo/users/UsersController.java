@@ -33,7 +33,7 @@ public class UsersController {
 
     //Authenticates and returns a user without the password information being sent back to the front-end.
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public returnUser getOneUser(@RequestBody Login login){
 
         String currentUsername = login.getUsername();
