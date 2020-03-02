@@ -1,5 +1,9 @@
 package h2.studio.demo.users;
 
+//import h2.studio.demo.Login.Login;
+//
+//
+//import h2.studio.demo.Login.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -18,49 +22,74 @@ public class UsersController {
     @Autowired
     private final UsersService usersService;
 
+
     public UsersController(UsersService usersService) { this.usersService = usersService; }
 
-    @GetMapping
-    public List<User> getAllUsers() { return this.usersService.getAllUsers(); }
-
-//    @GetMapping("/{id}")
-//    public User getOneUser(@PathVariable int id){
-//        User user = usersService.getOneUser(id).orElseThrow(IllegalArgumentException::new);
-//        return user;
-//    }
+//    @GetMapping
+//    public List<User> getAllUsers() { return this.usersService.getAllUsers(); }
 
 
-    //Returns a user without the password being sent back to the front end
-//    @GetMapping("/login")
-//    public returnUser getOneUser(@PathVariable int id){
+
+
+    //Authenticates and returns a user without the password information being sent back to the front-end.
 
     @GetMapping("/login")
-    public returnUser getOneUser(@RequestBody User login){
+    public returnUser getOneUser(@RequestBody Login login){
 
-        User loginUser = usersService.loginUser()
+        String currentUsername = login.getUsername();
+        String currentPassword = login.getPassword();
 
-        User user = usersService.getOneUser(id).orElseThrow(IllegalArgumentException::new);
+        //Locates the user based on the username
+        User user = usersService.findUserByUsername(currentUsername).orElseThrow(IllegalArgumentException::new);
 
-//        if (user.)
+        //Gets the password of the user
+        String userPassword = user.getPassword();
 
-
-
+        //Create an instance of returnUser to send back.
         returnUser userToReturn = new returnUser();
 
-        userToReturn.setId(user.getId());
-        userToReturn.setFirstName(user.getFirstName());
-        userToReturn.setLastName(user.getLastName());
-        userToReturn.setEmail(user.getEmail());
-        userToReturn.setStreetAddress(user.getStreetAddress());
-        userToReturn.setZipCode(user.getZipCode());
-        userToReturn.setCity(user.getCity());
-        userToReturn.setState(user.getState());
-        userToReturn.setAdmin(user.getAdmin());
-        userToReturn.setAccountLocked(user.getAccountLocked());
-        userToReturn.setLoginAttempts(user.getLoginAttempts());
-        userToReturn.setUserName(user.getUserName());
+        //Compare and authenticate password. If password matches, return user information minus the password. If it doesn't match, return an empty instance of userToReturn and increment loginAttempts. If loginAttempts reaches 5 without a successful login, the account is locked.
 
-        return userToReturn;
+        if(userPassword.equals(currentPassword) && !user.getAccountLocked()){
+            userToReturn.setId(user.getId());
+            userToReturn.setFirstName(user.getFirstName());
+            userToReturn.setLastName(user.getLastName());
+            userToReturn.setEmail(user.getEmail());
+            userToReturn.setStreetAddress(user.getStreetAddress());
+            userToReturn.setZipCode(user.getZipCode());
+            userToReturn.setCity(user.getCity());
+            userToReturn.setState(user.getState());
+            userToReturn.setAdmin(user.getAdmin());
+            userToReturn.setAccountLocked(user.getAccountLocked());
+            userToReturn.setLoginAttempts(user.getLoginAttempts());
+            userToReturn.setUserName(user.getUserName());
+            //Resets the login attempts after a successful login
+            user.setLoginAttempts(0);
+            //Updates the user information in the database
+            this.usersService.updateUser(user);
+        } else {
+            //Verify account isn't locked before updating any additional login attempts
+            if (!user.getAccountLocked()) {
+                //If a wrong password is entered, increment login attempts.
+                int currentLoginAttempts = user.getLoginAttempts();
+                user.setLoginAttempts(currentLoginAttempts + 1);
+
+                //If unsuccessful login attempts reaches 5, lock the account
+                if (currentLoginAttempts >= 5) {
+                    user.setAccountLocked(true);
+                }
+
+                this.usersService.updateUser(user);
+            }
+        }
+
+        if(user.getAccountLocked()){
+                userToReturn.setAccountLocked(true);
+        }
+
+
+            return userToReturn;
+
     }
 
 
@@ -99,7 +128,6 @@ public class UsersController {
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable int id){
-//        User user = usersService.getOneUser(id).orElseThrow(IllegalArgumentException::new);
         return usersService.deleteUser(id);
     }
 
