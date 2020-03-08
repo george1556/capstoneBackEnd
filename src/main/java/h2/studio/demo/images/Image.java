@@ -45,7 +45,6 @@ public class Image {
 
 
     @ManyToOne
-//    @JoinColumn
     private Product product;
 
     public Product getProduct() {
