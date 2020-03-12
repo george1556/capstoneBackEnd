@@ -25,11 +25,6 @@ public class UsersController {
 
     public UsersController(UsersService usersService) { this.usersService = usersService; }
 
-//    @GetMapping
-//    public List<User> getAllUsers() { return this.usersService.getAllUsers(); }
-
-
-
 
     //Authenticates and returns a user without the password information being sent back to the front-end.
 

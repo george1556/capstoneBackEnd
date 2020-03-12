@@ -180,6 +180,6 @@ public class User {
         return state;
     }
 
-    //    I can use a get request to get the username, and if it matches, check the password
+
 
 }

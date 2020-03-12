@@ -48,31 +48,10 @@ public class TransactionController {
 
 
 
-
-//    @PostMapping("/user/{userId}/product/{productId}")
-//    public Transaction addNewTransaction(@RequestBody Transaction newTransaction, @PathVariable int userId, @PathVariable int productId){
-//        Product product = productService.getOneProduct(productId).orElseThrow(IllegalArgumentException::new);
-//        newTransaction.setProduct(product);
-//
-//        User user = usersService.getOneUser(userId).orElseThrow(IllegalArgumentException::new);
-//        newTransaction.setUser(user);
-//
-//        return transactionService.addNewTransaction(newTransaction);
-//    }
-
-
-
-
-
-
-
         @PostMapping("/{productId}")
     public Transaction addNewTransaction(@RequestBody Transaction newTransaction, @PathVariable int productId){
         Product product = productService.getOneProduct(productId).orElseThrow(IllegalArgumentException::new);
         newTransaction.setProduct(product);
-
-//        User user = usersService.getOneUser(userId).orElseThrow(IllegalArgumentException::new);
-//        newTransaction.setUser(user);
 
         return transactionService.addNewTransaction(newTransaction);
     }

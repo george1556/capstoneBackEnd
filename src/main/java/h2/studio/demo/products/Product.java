@@ -8,9 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name = "products")
@@ -22,6 +22,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+
+    @OneToMany
+    private List<Image> images;
 
     @Column
     private String title;
@@ -134,35 +138,4 @@ public class Product {
         this.modifyDate = modifyDate;
     }
 
-    //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<Image> productImages;
-//
-//    public List<Image> getProductImages() {
-//        return productImages;
-//    }
-//
-//    public void setProductImages(List<Image> productImages) {
-//        this.productImages = productImages;
-//    }
-
-    //    @OneToMany(mappedBy = "product_id")
-//    private List<Image> image;
-//
-//    public List<Image> getImages() {
-//        return image;
-//    }
-//
-//    public void setImages(List<Image> image) {
-//        this.image = image;
-//    }
-    //    @OneToMany(mappedBy = "product")
-//    private List<Image> image;
-//
-//    public List<Image> getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(List<Image> image) {
-//        this.image = image;
-//    }
 }

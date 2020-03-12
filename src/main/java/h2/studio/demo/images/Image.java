@@ -29,20 +29,6 @@ public class Image {
     @Column
     private String addressField;
 
-    //Temporary solution
-//    @Column
-//    private String productId;
-//
-//    public String getProductId() {
-//        return productId;
-//    }
-//
-//    public void setProductId(String productId) {
-//        this.productId = productId;
-//    }
-//    Temporary solution end
-
-
 
     @ManyToOne
     private Product product;
@@ -54,14 +40,6 @@ public class Image {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-    //    @ManyToOne
-//    @JoinColumn(name="product_id", referencedColumnName = "id")
-//    private Product product;
-
-//    @ManyToOne(mappedBy = "image_id")
-//    private Product product;
-
 
 
     public int getId() {
@@ -106,14 +84,5 @@ public class Image {
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
     }
-
-    //    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
-
 
 }

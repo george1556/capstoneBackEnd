@@ -28,13 +28,7 @@ public class UsersService {
 
 
             User currentUser = usersRepository.save(newUser);
-//            Map<String, String> user2 = (Map<String, String>) dataSnapshot.getValue();
 
-      //  HashMap<String, String> test = new HashMap<>();
-      // test.put(newUser["userName"]);
-
-       // String userName = newUser.getUserName();
-       // System.out.println("newUser.getUserName(): " + newUser.getUserName());
         System.out.println(currentUser);
         System.out.println(newUser);
         System.out.println("currentUser.get(): " + currentUser.getId());
@@ -45,9 +39,7 @@ public class UsersService {
 
     public String deleteUser(int id){
         usersRepository.deleteById(id);
-//        Optional<User> currentUser = usersRepository.findById(id);
-        //usersRepository.del
-//        usersRepository.delete(currentUser);
+
         return "ID " + id + " was removed.";
     }
 

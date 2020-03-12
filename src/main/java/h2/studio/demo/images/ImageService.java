@@ -18,7 +18,6 @@ public class ImageService {
 
     public Optional<Image> getOneImage(int id) { return imageRepository.findById(id); }
 
-//    public List<Image> getAllImagesById(String id){ return imageRepository.findImagesByProductIdEquals(id);}
 
     public Image addNewImage(Image newImage){
         Image currentImage = imageRepository.save(newImage);

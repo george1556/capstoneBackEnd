@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +24,9 @@ public class ProductController {
     @Autowired
     private final ProductService productService;
 
-    public ProductController(ProductService productService) { this.productService = productService; }
+    private final EntityManager em;
+
+    public ProductController(ProductService productService, EntityManager em) { this.productService = productService; this.em = em; }
 
     @GetMapping
     public List<Product> getAllProducts(){ return this.productService.getAllProducts();}
@@ -40,53 +45,6 @@ public class ProductController {
     }
 
 
-
-
-
-//    @PostMapping
-//    public Product addNewProduct(@RequestBody Product newProduct){
-//
-//
-//        System.out.println("newProduct: " + newProduct.toString());
-//
-//
-//        Image image = null;
-//        List<Image> listImages = new ArrayList<Image>();
-//
-//        Product product = new Product();
-//        product.setTitle(newProduct.getTitle());
-//        product.setPrice(newProduct.getPrice());
-//        product.setSummary(newProduct.getSummary());
-//        product.setDescription1(newProduct.getDescription1());
-//        product.setDescription2(newProduct.getDescription2());
-//        product.setDescription3(newProduct.getDescription3());
-//        product.setDescription4(newProduct.getDescription4());
-//
-//        if (newProduct.getProductImages().size() > 0){
-//            for (int i = 0; i < newProduct.getProductImages().size(); i++) {
-//
-//                image = new Image();
-//                image.setAddressField(newProduct.getProductImages().get(i).getAddressField());
-//                image.setProduct(product);
-//
-//                listImages.add(image);
-//            }
-//        }
-//
-//        System.out.println("listImages: " + listImages.toString());
-//
-//
-//        System.out.println("product: " + product.toString());
-//
-//        product.setProductImages(listImages);
-//        System.out.println("product after setproductimages: " + product.toString());
-//
-//
-//        System.out.println("productService.AddNewProduct(product): " + productService.addNewProduct(product));
-//        //Delete this after testing
-//    return productService.addNewProduct(product);
-//    }
-
     @PatchMapping
     public Product updateProduct(@RequestBody Product updatedProduct){
         Product product = productService.getOneProduct(updatedProduct.getId()).orElseThrow(IllegalArgumentException::new);
@@ -94,9 +52,20 @@ public class ProductController {
         return productService.updateProduct(updatedProduct);
     }
 
+
     @DeleteMapping("/{id}")
+    @Transactional
         public String deleteProduct(@PathVariable int id){
-            return productService.deleteProduct(id);
+
+        //Product product = productService.getOneProduct(id).orElseThrow(IllegalArgumentException::new);
+
+        Query q1 = em.createNativeQuery("delete from images where product_id = ?");
+        q1.setParameter(1, id);
+        em.joinTransaction();
+        q1.executeUpdate();
+
+
+        return productService.deleteProduct(id);
         }
 
 }

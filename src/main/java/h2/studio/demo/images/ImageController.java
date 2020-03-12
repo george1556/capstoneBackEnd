@@ -36,15 +36,6 @@ public class ImageController {
     }
 
 
-//    @GetMapping("/{id}")
-//    public List<Image> getAllImagesById(@PathVariable String id){
-//
-//        List<Image> currentImages = imageService.getAllImagesById(id);
-//
-//        return currentImages;
-//
-//    }
-
     @PostMapping
     public Image addnewImage(@RequestBody Image newImage){
 
@@ -53,16 +44,6 @@ public class ImageController {
         return imageService.addNewImage(newImage);
     }
 
-
-
-//    @PostMapping("/{id}")
-//    public Car addOneCar(@RequestBody Car newCar, @PathVariable int id) {
-//
-//        Location location = locationsService.getOneLocation(id).orElseThrow(IllegalArgumentException::new);
-//        System.out.println("newcar: " + newCar.toString());
-//        newCar.setLocation(location);
-//        return carsService.addOneCar(newCar);
-//    }
 
 
     @PostMapping("/{id}")
